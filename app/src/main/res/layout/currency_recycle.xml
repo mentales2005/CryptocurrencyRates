@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:weightSum="5"
+        android:weightSum="3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -19,7 +19,7 @@
             android:id="@+id/cryptoNumber"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.2"
             android:textSize="@dimen/_16sdp"
             android:fontFamily="@font/bitter"
             android:gravity="center"
@@ -29,13 +29,14 @@
             android:id="@+id/cryptoImage"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
-            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
             android:src="@mipmap/ic_launcher_round" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.6"
             android:gravity="left|center"
             android:orientation="vertical">
 
