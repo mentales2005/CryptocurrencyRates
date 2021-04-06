@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.net.NoRouteToHostException;
 import java.net.UnknownHostException;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private ProgressDialog progressDialog;
     private LocalSave save;
     private CryptoCoinsAdapter adapter;
+    private Gson gson;
     private boolean crypto = false, price = false, change = false;
 
 
@@ -53,9 +55,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         //getListOfCoins = new ArrayList<>();
         progressDialog = new ProgressDialog(MainActivity.this);
         save = new LocalSave();
+        gson = new Gson();
         progressDialog.show();
-
-        lookUpData();
+        if(save.getDataString(EasyAccessNames.LISTOFCOINS,MainActivity.this).equals("0")){
+            lookUpData();
+        }else{
+            getListOfCoins=new ArrayList<>();
+            getListOfCoins.addAll(gson.fromJson(save.getDataString(EasyAccessNames.LISTOFCOINS,MainActivity.this),new TypeToken<List<Coins>>() {}.getType()));
+            setUpRecycleView();
+            progressDialog.cancel();
+        }
         setUpTextView();
     }
 
@@ -150,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onResponse(Call<ResultAPIModel<ListOfCoins>> call, Response<ResultAPIModel<ListOfCoins>> response) {
                 ResultAPIModel<ListOfCoins> result = response.body();
-                Gson gson = new Gson();
                 getListOfCoins = new ArrayList<>();
                 getListOfCoins.addAll(result.data.getCoins());
                 Log.e("onResponse1: ", gson.toJson(result.data));
@@ -179,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onResponse(Call<ResultAPIModel<ListOfCoins>> call, Response<ResultAPIModel<ListOfCoins>> response) {
                 ResultAPIModel<ListOfCoins> result = response.body();
-                Gson gson = new Gson();
                 getListOfCoins = new ArrayList<>();
                 getListOfCoins.addAll(result.data.getCoins());
                 Log.e("onResponse2: ", gson.toJson(result.data));
