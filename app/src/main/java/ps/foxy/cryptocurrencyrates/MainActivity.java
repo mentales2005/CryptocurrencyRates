@@ -71,12 +71,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public boolean isLastPage() {
-                return true;
+                return false;
             }
 
             @Override
             public boolean isLoading() {
-                return true;
+                return false;
             }
         });
         adapter.notifyDataSetChanged();
@@ -201,6 +201,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-      binding.swipeRefresh.setRefreshing(false);
+        lookUpData();
+        binding.sortByChangeImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+        binding.sortByRankImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+        binding.sortByPriceImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+
     }
 }
