@@ -2,6 +2,7 @@ package ps.foxy.cryptocurrencyrates;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +31,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+import static ps.foxy.cryptocurrencyrates.PaginationListener.PAGE_START;
+
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private ActivityMainBinding binding;
     private List<Coins> getListOfCoins;
     private Request request;
@@ -39,16 +42,19 @@ public class MainActivity extends AppCompatActivity {
     private CryptoCoinsAdapter adapter;
     private boolean crypto = false, price = false, change = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+         binding.swipeRefresh.setOnRefreshListener(MainActivity.this);
 
-        //  getListOfCoins = new ArrayList<>();
+        //getListOfCoins = new ArrayList<>();
         progressDialog = new ProgressDialog(MainActivity.this);
         save = new LocalSave();
         progressDialog.show();
+
         lookUpData();
         setUpTextView();
     }
@@ -57,6 +63,22 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CryptoCoinsAdapter(MainActivity.this, getListOfCoins);
         binding.cryptoRecycle.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         binding.cryptoRecycle.setAdapter(adapter);
+        binding.cryptoRecycle.addOnScrollListener(new PaginationListener(new LinearLayoutManager(MainActivity.this)) {
+            @Override
+            protected void loadMoreItems() {
+                lookUpData();
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return true;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return true;
+            }
+        });
         adapter.notifyDataSetChanged();
     }
 
@@ -134,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("onResponse1: ", gson.toJson(result.data));
                 save.setDataString(EasyAccessNames.LISTOFCOINS, gson.toJson(getListOfCoins), MainActivity.this);
                 setUpRecycleView();
+                binding.swipeRefresh.setRefreshing(false);
                 progressDialog.cancel();
             }
 
@@ -161,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 getListOfCoins.addAll(result.data.getCoins());
                 Log.e("onResponse2: ", gson.toJson(result.data));
                 setUpRecycleView();
+                binding.swipeRefresh.setRefreshing(false);
                 progressDialog.cancel();
             }
 
@@ -173,5 +197,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+      binding.swipeRefresh.setRefreshing(false);
     }
 }
