@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
          @Override
          public void onClick(View v) {
              progressDialog.show();
-             binding.sortByRank.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_arrow_drop_up_24,0);
+             binding.sortByPrice.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_arrow_drop_up_24,0);
              lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_PRICE,EasyAccessNames.ORDERED_DIRECTION_ASC);
          }
      });
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
          @Override
          public void onClick(View v) {
              progressDialog.show();
-             binding.sortByRank.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_arrow_drop_up_24,0);
+             binding.sortByChange.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_arrow_drop_up_24,0);
              lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_CHANGE,EasyAccessNames.ORDERED_DIRECTION_ASC);
          }
      });
