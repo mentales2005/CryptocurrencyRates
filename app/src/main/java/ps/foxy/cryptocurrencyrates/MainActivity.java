@@ -62,29 +62,49 @@ public class MainActivity extends AppCompatActivity {
      binding.sortByRank.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-             //if(binding.sortByRank.getCompoundDrawables())
-             progressDialog.show();
-             binding.sortByRank.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_arrow_drop_up_24,0);
-             lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_TOP,EasyAccessNames.ORDERED_DIRECTION_ASC);
+             if(binding.sortByRankImg.getBackground() == getResources().getDrawable(R.drawable.ic_baseline_arrow_drop_down_24)){
+                 progressDialog.show();
+                 binding.sortByRankImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_up_24);
+                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_TOP,EasyAccessNames.ORDERED_DIRECTION_ASC);
+             }else {
+                 progressDialog.show();
+                 binding.sortByRankImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_TOP,EasyAccessNames.ORDERED_DIRECTION_DESE);
+             }
+
          }
      });
 
      binding.sortByPrice.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-             progressDialog.show();
-             binding.sortByPrice.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_arrow_drop_up_24,0);
-             lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_PRICE,EasyAccessNames.ORDERED_DIRECTION_ASC);
+
+             if(binding.sortByPriceImg.getBackground() == getResources().getDrawable(R.drawable.ic_baseline_arrow_drop_down_24)){
+                 progressDialog.show();
+                 binding.sortByPriceImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_up_24);
+                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_PRICE,EasyAccessNames.ORDERED_DIRECTION_ASC);
+             }else {
+                 progressDialog.show();
+                 binding.sortByPriceImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_PRICE,EasyAccessNames.ORDERED_DIRECTION_DESE);
+             }
          }
      });
 
      binding.sortByChange.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-             progressDialog.show();
-             binding.sortByChange.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_arrow_drop_up_24,0);
-             lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_CHANGE,EasyAccessNames.ORDERED_DIRECTION_ASC);
+             if(binding.sortByChangeImg.getBackground() == getResources().getDrawable(R.drawable.ic_baseline_arrow_drop_down_24)){
+                 progressDialog.show();
+                 binding.sortByChangeImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_up_24);
+                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_CHANGE,EasyAccessNames.ORDERED_DIRECTION_ASC);
+             }else {
+                 progressDialog.show();
+                 binding.sortByChangeImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_CHANGE,EasyAccessNames.ORDERED_DIRECTION_DESE);
+             }
          }
+
      });
 
     }
