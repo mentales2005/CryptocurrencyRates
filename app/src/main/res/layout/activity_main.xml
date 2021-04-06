@@ -43,7 +43,6 @@
 
             <ImageView
                 android:id="@+id/sortByRankImg"
-                android:src="@drawable/ic_baseline_arrow_drop_down_24"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
             ></ImageView>
@@ -68,7 +67,6 @@
 
             <ImageView
                 android:id="@+id/sortByPriceImg"
-                android:background="@drawable/ic_baseline_arrow_drop_down_24"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 ></ImageView>
@@ -94,7 +92,6 @@
 
             <ImageView
                 android:id="@+id/sortByChangeImg"
-                android:background="@drawable/ic_baseline_arrow_drop_down_24"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 ></ImageView>

@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import ps.foxy.cryptocurrencyrates.CryptoAdapter.CryptoCoinsAdapter;
 import ps.foxy.cryptocurrencyrates.CryptoObjects.ResultAPIModel;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private LocalSave save;
     private CryptoCoinsAdapter adapter;
+    private boolean crypto = false, price = false, change = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-      //  getListOfCoins = new ArrayList<>();
+        //  getListOfCoins = new ArrayList<>();
         progressDialog = new ProgressDialog(MainActivity.this);
         save = new LocalSave();
         progressDialog.show();
@@ -51,61 +53,71 @@ public class MainActivity extends AppCompatActivity {
         setUpTextView();
     }
 
-    private void setUpRecycleView(){
+    private void setUpRecycleView() {
         adapter = new CryptoCoinsAdapter(MainActivity.this, getListOfCoins);
         binding.cryptoRecycle.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         binding.cryptoRecycle.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 
-    private void setUpTextView(){
-     binding.sortByRank.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             if(binding.sortByRankImg.getBackground() == getResources().getDrawable(R.drawable.ic_baseline_arrow_drop_down_24)){
-                 progressDialog.show();
-                 binding.sortByRankImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_up_24);
-                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_TOP,EasyAccessNames.ORDERED_DIRECTION_ASC);
-             }else {
-                 progressDialog.show();
-                 binding.sortByRankImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
-                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_TOP,EasyAccessNames.ORDERED_DIRECTION_DESE);
-             }
+    private void setUpTextView() {
 
-         }
-     });
+        binding.sortByChangeImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+        binding.sortByRankImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+        binding.sortByPriceImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
 
-     binding.sortByPrice.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
+        binding.sortByRank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (crypto == false) {
+                    crypto = true;
+                    progressDialog.show();
+                    binding.sortByRankImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_up_24);
+                    lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_MARKETCAP, EasyAccessNames.ORDERED_DIRECTION_ASC);
+                } else {
+                    crypto = false;
+                    progressDialog.show();
+                    binding.sortByRankImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+                    lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_MARKETCAP, EasyAccessNames.ORDERED_DIRECTION_DESE);
+                }
 
-             if(binding.sortByPriceImg.getBackground() == getResources().getDrawable(R.drawable.ic_baseline_arrow_drop_down_24)){
-                 progressDialog.show();
-                 binding.sortByPriceImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_up_24);
-                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_PRICE,EasyAccessNames.ORDERED_DIRECTION_ASC);
-             }else {
-                 progressDialog.show();
-                 binding.sortByPriceImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
-                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_PRICE,EasyAccessNames.ORDERED_DIRECTION_DESE);
-             }
-         }
-     });
+            }
+        });
 
-     binding.sortByChange.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             if(binding.sortByChangeImg.getBackground() == getResources().getDrawable(R.drawable.ic_baseline_arrow_drop_down_24)){
-                 progressDialog.show();
-                 binding.sortByChangeImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_up_24);
-                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_CHANGE,EasyAccessNames.ORDERED_DIRECTION_ASC);
-             }else {
-                 progressDialog.show();
-                 binding.sortByChangeImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
-                 lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_CHANGE,EasyAccessNames.ORDERED_DIRECTION_DESE);
-             }
-         }
+        binding.sortByPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (price == false) {
+                    price = true;
+                    progressDialog.show();
+                    binding.sortByPriceImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_up_24);
+                    lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_PRICE, EasyAccessNames.ORDERED_DIRECTION_ASC);
+                } else {
+                    price = false;
+                    progressDialog.show();
+                    binding.sortByPriceImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+                    lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_PRICE, EasyAccessNames.ORDERED_DIRECTION_DESE);
+                }
+            }
+        });
 
-     });
+        binding.sortByChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (change == false) {
+                    change = true;
+                    progressDialog.show();
+                    binding.sortByChangeImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_up_24);
+                    lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_CHANGE, EasyAccessNames.ORDERED_DIRECTION_ASC);
+                } else {
+                    change = false;
+                    progressDialog.show();
+                    binding.sortByChangeImg.setBackgroundResource(R.drawable.ic_baseline_arrow_drop_down_24);
+                    lookUpDataOrderedBy(EasyAccessNames.ORDERED_BY_CHANGE, EasyAccessNames.ORDERED_DIRECTION_DESE);
+                }
+            }
+
+        });
 
     }
 
@@ -117,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ResultAPIModel<ListOfCoins>> call, Response<ResultAPIModel<ListOfCoins>> response) {
                 ResultAPIModel<ListOfCoins> result = response.body();
                 Gson gson = new Gson();
-                getListOfCoins= new ArrayList<>();
+                getListOfCoins = new ArrayList<>();
                 getListOfCoins.addAll(result.data.getCoins());
                 Log.e("onResponse1: ", gson.toJson(result.data));
                 save.setDataString(EasyAccessNames.LISTOFCOINS, gson.toJson(getListOfCoins), MainActivity.this);
@@ -137,15 +149,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void lookUpDataOrderedBy(String orderBy,String orderDirection) {
+    private void lookUpDataOrderedBy(String orderBy, String orderDirection) {
         request = Retrofit_instance.getRetrofitInstance().create(Request.class);
-        Call<ResultAPIModel<ListOfCoins>> call = request.getCoinsOrderdBy(orderBy,orderDirection,50);
+        Call<ResultAPIModel<ListOfCoins>> call = request.getCoinsOrderdBy(orderBy, orderDirection, 50);
         call.enqueue(new Callback<ResultAPIModel<ListOfCoins>>() {
             @Override
             public void onResponse(Call<ResultAPIModel<ListOfCoins>> call, Response<ResultAPIModel<ListOfCoins>> response) {
                 ResultAPIModel<ListOfCoins> result = response.body();
                 Gson gson = new Gson();
-                getListOfCoins= new ArrayList<>();
+                getListOfCoins = new ArrayList<>();
                 getListOfCoins.addAll(result.data.getCoins());
                 Log.e("onResponse2: ", gson.toJson(result.data));
                 setUpRecycleView();
