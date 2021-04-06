@@ -7,6 +7,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
+        android:weightSum="5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -45,7 +46,7 @@
                 android:fontFamily="@font/bitter"
                 android:inputType="textMultiLine"
                 android:text=""
-                android:textSize="@dimen/_14ssp" />
+                android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/cryptoShortName"
@@ -53,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/bitter"
                 android:text=""
-                android:textSize="@dimen/_14ssp" />
+                android:textSize="@dimen/_12ssp" />
         </LinearLayout>
 
 
